@@ -149,10 +149,10 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
     // ----- Récupération des valeurs du formulaire    
 
   let optionProduit = {      
-    id: idProduit,    
-    couleur: colorsForm,      
-    quantite: quantityForm,      
-    nom: nameForm,        
+    nom: nameForm, 
+    id: idProduit,
+    quantite: quantityForm,    
+    couleur: colorsForm          
   };      
 
   console.log("Vérification des options enregistré dans le formulaire");      
@@ -165,11 +165,12 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
 
   //-- Récupération et stockage des valeurs du formulaire "optionProduit" dans le Local Storage    
 
-  let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('keyProduit'));    
+  let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('produit'));    
   // JSON.parse pour convertir les données au format JSON qui sont dans le local storage en Objet JavaScript.
       
   console.log("Valeur de produitEnregistreDansLocalStorage : (null si pas de clés");    
   console.log(produitEnregistreDansLocalStorage);    
+
 
 
   //-- Fonction du message de confirmation sous forme de PopUp.    
@@ -180,7 +181,22 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
     \nVoulez-vous accéder au panier ?`)) {
         window.location.href = "cart.html"    
       }     
-    };    
+    };   
+    
+    
+  //-- Fonction ajouter un produit sélectionné dans le localstorage
+
+  const ajoutProduitLocalStorage = () => {
+
+    // Ajout dans le tableau de l'objet avec les valeurs choisi par l'utilisateur
+    produitEnregistreDansLocalStorage.push(optionProduit);    
+
+    // Transformation en format JSON et l'envoyer dans la key "produit" du Local Storage
+    localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));    
+
+    // Appel de la fonction popUp pour valider ou non le panier. 
+    popUpConfirmation();   
+  };
 
   // - Vérification de la présence d'une clé    
 
@@ -188,10 +204,7 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
 
   if(produitEnregistreDansLocalStorage) {    
 
-    produitEnregistreDansLocalStorage.push(optionProduit);    
-    localStorage.setItem("keyProduit", JSON.stringify(produitEnregistreDansLocalStorage));    
-
-    popUpConfirmation();    
+    ajoutProduitLocalStorage(); 
 
     console.log("Stockage d'autres options si la condition est vrai");    
     console.log(produitEnregistreDansLocalStorage);  
@@ -199,15 +212,10 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
     // S'il n'y à pas de produit enregistré dans le localstorage   :
     } else { 
 
+    // Création d'un tableau pour ajouter les premières données, dans le Local Storage.
     produitEnregistreDansLocalStorage = [];    
 
-    // -- Insérer le contenus présent dans la variable optionProduit 
-    produitEnregistreDansLocalStorage.push(optionProduit);    
-
-    // Envoyer les objets dans le local storage et définir la clés :    
-    localStorage.setItem("keyProduit", JSON.stringify(produitEnregistreDansLocalStorage));    
-
-    popUpConfirmation();    
+    ajoutProduitLocalStorage();   
 
     console.log("Valeur de l'array du tableau envoyer dans le local storage");    
     console.log(produitEnregistreDansLocalStorage);    
