@@ -141,8 +141,8 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
       
     // -------- Déclaration des variables contenant les choix d'options de l'utilisateur présent dans le formulaire.   
 
-    const quantityForm = document.querySelector("#quantity").value;    
-    const colorsForm = document.querySelector("#colors").value;    
+    const quantityForm = document.querySelector("#quantity");    
+    const colorsForm = document.querySelector("#colors");    
     const nameForm = document.querySelector("#title").textContent;   
     const priceForm = document.querySelector("#price").textContent;      
   
@@ -151,8 +151,8 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
   let optionProduit = {      
     nom: nameForm, 
     id: idProduit,
-    quantite: quantityForm,    
-    couleur: colorsForm          
+    quantite: quantityForm.value,    
+    couleur: colorsForm.value          
   };      
 
   console.log("Vérification des options enregistré dans le formulaire");      
@@ -194,31 +194,40 @@ if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){
     // Transformation en format JSON et l'envoyer dans la key "produit" du Local Storage
     localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));    
 
-    // Appel de la fonction popUp pour valider ou non le panier. 
-    popUpConfirmation();   
   };
 
-  // - Vérification de la présence d'une clé    
+let update = false;
 
-  // s'il y a deja des produit d'enregistré dans le local storage :     
+if (produitEnregistreDansLocalStorage) {
 
-  if(produitEnregistreDansLocalStorage) {    
+  produitEnregistreDansLocalStorage.forEach (function (choixProduit, key) { 
 
-    ajoutProduitLocalStorage(); 
+      // Si le produit commandé est déjà dans le panier on addition les valeurs de quantité et met à jour l'objet présent dans la clé "produit"
 
-    console.log("Stockage d'autres options si la condition est vrai");    
-    console.log(produitEnregistreDansLocalStorage);  
-    
-    // S'il n'y à pas de produit enregistré dans le localstorage   :
-    } else { 
+      if (choixProduit.id == idProduit && choixProduit.couleur == colorsForm.value) {
+          produitEnregistreDansLocalStorage[key].quantite = parseInt(choixProduit.quantite) + parseInt(quantityForm.value);
 
-    // Création d'un tableau pour ajouter les premières données, dans le Local Storage.
-    produitEnregistreDansLocalStorage = [];    
+          // Envoie de mise à jour s'il n'y pas plus de 100 produits au panier :
+          if (produitEnregistreDansLocalStorage[key].quantite <= 100)
 
-    ajoutProduitLocalStorage();   
-
-    console.log("Valeur de l'array du tableau envoyer dans le local storage");    
-    console.log(produitEnregistreDansLocalStorage);    
-    }    
+          // Update des informations déjà présente dans la clé "produit" et envoie des nouvelles valeurs.
+          localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+          update = true;
+          popUpConfirmation();
+      }
+  });
+      // Si la première condition est fausse : Alors le produit ne se trouve pas dans le panier
+      if (!update) {
+        ajoutProduitLocalStorage();
+        popUpConfirmation(); 
+      }
   }
-});
+  // Si il n'y a aucun produit présent dans le local storage on envoie les valeurs dans le tableau vide.  
+  else {
+  // je crée un tableau pour les élément choisi par les utilisateurs
+  produitEnregistreDansLocalStorage = [];
+  ajoutProduitLocalStorage();
+  popUpConfirmation();
+  }}
+
+  });
