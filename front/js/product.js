@@ -53,31 +53,32 @@ function produits (produit) {
 
   let choixCouleurs = document.querySelector("#colors");
 
-  // - Boucle for... pour chercher un indice. 
+  // - Boucle for...of pour chercher un indice. 
   for (let choixProduit of produit) {
         // - si id (définit par l'url) est identique à un _id d'un des produits du tableau, on récupère son indice de tableau qui sert pour les éléments produit à ajouter
 
-        if (idProduit === choixProduit._id) {
+    if (idProduit === choixProduit._id) {
             
-            titreProduit.textContent = `${choixProduit.name}`;
+    titreProduit.textContent = `${choixProduit.name}`;        
 
-            prixProduit.textContent = `${choixProduit.price}`;
+    prixProduit.textContent = `${choixProduit.price}`;        
 
-            imageProduit.innerHTML = `<img src="${choixProduit.imageUrl}" alt="${choixProduit.altTxt}">`;
+    imageProduit.innerHTML = `<img src="${choixProduit.imageUrl}" alt="${choixProduit.altTxt}">`;        
 
-            descriptionProduit.textContent = `${choixProduit.description}`;
+    descriptionProduit.textContent = `${choixProduit.description}`;        
 
-            // -- Boucle pour chercher les valeurs des options de couleur. 
-            for (let optionCouleur of choixProduit.colors) {
+    // -- Boucle pour chercher les valeurs des options de couleur.       
 
-              choixCouleurs.innerHTML += `<option value="${optionCouleur}">${optionCouleur}</option>`;
+      for (let optionCouleur of choixProduit.colors) {    
 
-              console.log("Visualisation des couleurs disponible selon le produit :");
-              console.log(optionCouleur);
-            }
-        }
-    }
-}
+        choixCouleurs.innerHTML += `<option value="${optionCouleur}">${optionCouleur}</option>`;      
+
+        console.log("Visualisation des couleurs disponible selon le produit :");    
+        console.log(optionCouleur);        
+      };    
+    };      
+  };
+};
 
 
 /* -------------------------------------------------------------------
@@ -97,8 +98,7 @@ structureColorOption.addEventListener("input", (event) => {
   console.log("Visualisation de la couleur sélectionné :");
   console.log(couleurProduit);
 
-  }
-);
+});
 
 // ---- QUANTITE ---- //
 
@@ -113,8 +113,7 @@ structureQuantiteOption.addEventListener("input", (event) => {
   console.log("Visualisation de la quantitée sélectionné :");
   console.log(quantiteProduit);
 
-  }
-);
+});
 
 
 /* ---------------------------------------------------
@@ -132,102 +131,110 @@ const envoyerPanier = document.querySelector("#addToCart");
 
 envoyerPanier.addEventListener("click", (event) => {
     
-event.preventDefault() // voir mdn    
+  event.preventDefault() // voir mdn    
 
-// Permet de vérifier qu'une Couleur est séléctionnée : Si le param. value n'a pas de valeur -> Affichage du message d'erreur  
-if (!colors.value) return (alert ('Aucune couleur séléctionnée'))    
-// Si param. quantity rempli les contions si dessous on récupère les valeurs.   
-if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){    
+  // Permet de vérifier qu'une Couleur est séléctionnée : Si le param. value n'a pas de valeur -> Affichage du message d'erreur  
+  if (!colors.value) return (alert ('Aucune couleur séléctionnée'))    
+  // Si param. quantity rempli les contions si dessous on récupère les valeurs.   
+  if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){    
+        
+      // -------- Déclaration des variables contenant les choix d'options de l'utilisateur présent dans le formulaire.   
+
+      const quantityForm = document.querySelector("#quantity");    
+      const colorsForm = document.querySelector("#colors");    
+      const nameForm = document.querySelector("#title").textContent;   
+      const priceForm = document.querySelector("#price").textContent;      
+    
+      // ----- Récupération des valeurs du formulaire    
+
+    let optionProduit = {      
+      nom: nameForm, 
+      id: idProduit,
+      quantite: quantityForm.value,    
+      couleur: colorsForm.value,          
+    };      
+
+    console.log("Vérification des options enregistré dans le formulaire");      
+    console.log(optionProduit);    
       
-    // -------- Déclaration des variables contenant les choix d'options de l'utilisateur présent dans le formulaire.   
 
-    const quantityForm = document.querySelector("#quantity");    
-    const colorsForm = document.querySelector("#colors");    
-    const nameForm = document.querySelector("#title").textContent;   
-    const priceForm = document.querySelector("#price").textContent;      
-  
-    // ----- Récupération des valeurs du formulaire    
+    /* --------------------------------
+                LE LOCAL STORAGE              
+    ----------------------------------- */      
 
-  let optionProduit = {      
-    nom: nameForm, 
-    id: idProduit,
-    quantite: quantityForm.value,    
-    couleur: colorsForm.value          
-  };      
+    //-- Récupération et stockage des valeurs du formulaire "optionProduit" dans le Local Storage    
 
-  console.log("Vérification des options enregistré dans le formulaire");      
-  console.log(optionProduit);    
-    
+    let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('produit'));    
+    // JSON.parse pour convertir les données au format JSON qui sont dans le local storage en Objet JavaScript.
+        
+    console.log("Valeur de produitEnregistreDansLocalStorage : (null si pas de clés");    
+    console.log(produitEnregistreDansLocalStorage);    
 
-  /* --------------------------------
-              LE LOCAL STORAGE              
-  ----------------------------------- */      
 
-  //-- Récupération et stockage des valeurs du formulaire "optionProduit" dans le Local Storage    
 
-  let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('produit'));    
-  // JSON.parse pour convertir les données au format JSON qui sont dans le local storage en Objet JavaScript.
+    //-- Fonction du message de confirmation sous forme de PopUp.    
+
+    const popUpConfirmation = () => {    
+      if(window.confirm(`Le ${nameForm} de couleur ${colorsForm.value}, à ${priceForm} € / unitée.    
+      \nÀ été ajouté au panier.    
+      \nVoulez-vous accéder au panier ?`)) {
+          window.location.href = "cart.html"    
+        };    
+      };   
       
-  console.log("Valeur de produitEnregistreDansLocalStorage : (null si pas de clés");    
-  console.log(produitEnregistreDansLocalStorage);    
+      
+    //-- Fonction ajouter un produit sélectionné dans le localstorage
 
+    const ajoutProduitLocalStorage = () => {
 
+      // Ajout dans le tableau de l'objet avec les valeurs choisi par l'utilisateur
+      produitEnregistreDansLocalStorage.push(optionProduit);    
 
-  //-- Fonction du message de confirmation sous forme de PopUp.    
+      // Transformation en format JSON et l'envoyer dans la key "produit" du Local Storage
+      localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));    
 
-  const popUpConfirmation = () => {    
-    if(window.confirm(`Le ${nameForm} de couleur ${colorsForm}, à ${priceForm} € / unitée.    
-    \nÀ été ajouté au panier.    
-    \nVoulez-vous accéder au panier ?`)) {
-        window.location.href = "cart.html"    
-      }     
-    };   
-    
-    
-  //-- Fonction ajouter un produit sélectionné dans le localstorage
+    };
 
-  const ajoutProduitLocalStorage = () => {
+    let update = false;
 
-    // Ajout dans le tableau de l'objet avec les valeurs choisi par l'utilisateur
-    produitEnregistreDansLocalStorage.push(optionProduit);    
+    if (produitEnregistreDansLocalStorage) {
 
-    // Transformation en format JSON et l'envoyer dans la key "produit" du Local Storage
-    localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));    
+      produitEnregistreDansLocalStorage.forEach (function (choixProduit, key) { 
 
-  };
+        // Si le produit commandé est déjà dans le panier on addition les valeurs de quantité et met à jour l'objet présent dans la clé "produit"
 
-let update = false;
-
-if (produitEnregistreDansLocalStorage) {
-
-  produitEnregistreDansLocalStorage.forEach (function (choixProduit, key) { 
-
-      // Si le produit commandé est déjà dans le panier on addition les valeurs de quantité et met à jour l'objet présent dans la clé "produit"
-
-      if (choixProduit.id == idProduit && choixProduit.couleur == colorsForm.value) {
+        if (choixProduit.id == idProduit && choixProduit.couleur == colorsForm.value) {
+            
           produitEnregistreDansLocalStorage[key].quantite = parseInt(choixProduit.quantite) + parseInt(quantityForm.value);
 
-          // Envoie de mise à jour s'il n'y pas plus de 100 produits au panier :
-          if (produitEnregistreDansLocalStorage[key].quantite <= 100)
+            // Envoie de mise à jour s'il n'y pas plus de 100 produits au panier :
+            if (produitEnregistreDansLocalStorage[key].quantite <= 100)
 
-          // Update des informations déjà présente dans la clé "produit" et envoie des nouvelles valeurs.
-          localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
-          update = true;
-          popUpConfirmation();
-      }
-  });
-      // Si la première condition est fausse : Alors le produit ne se trouve pas dans le panier
-      if (!update) {
-        ajoutProduitLocalStorage();
-        popUpConfirmation(); 
-      }
-  }
-  // Si il n'y a aucun produit présent dans le local storage on envoie les valeurs dans le tableau vide.  
-  else {
-  // je crée un tableau pour les élément choisi par les utilisateurs
-  produitEnregistreDansLocalStorage = [];
-  ajoutProduitLocalStorage();
-  popUpConfirmation();
-  }}
+            popUpConfirmation();
 
-  });
+            // Update des informations déjà présente dans la clé "produit" et envoie des nouvelles valeurs.
+            localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+            update = true;
+            
+        };
+      });
+        // Si la première condition est fausse : Alors le produit ne se trouve pas dans le panier
+        if (!update) {
+
+          popUpConfirmation(); 
+
+          ajoutProduitLocalStorage();
+
+        };
+      // Si il n'y a aucun produit présent dans le local storage on envoie les valeurs dans le tableau vide.
+    } else {
+      // Je crée un tableau pour les élément choisi par les utilisateurs
+      produitEnregistreDansLocalStorage = [];
+
+      popUpConfirmation();
+
+      ajoutProduitLocalStorage();
+      
+    };
+  };
+});
