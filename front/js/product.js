@@ -143,7 +143,11 @@ envoyerPanier.addEventListener("click", (event) => {
       const quantityForm = document.querySelector("#quantity");    
       const colorsForm = document.querySelector("#colors");    
       const nameForm = document.querySelector("#title").textContent;   
-      const priceForm = document.querySelector("#price").textContent;      
+      const priceForm = document.querySelector("#price").textContent;    
+      
+      const linkUrl = document.location.href;
+      console.log("Lien url du produit :");
+      console.log(linkUrl);
     
       // ----- Récupération des valeurs du formulaire    
 
@@ -151,7 +155,8 @@ envoyerPanier.addEventListener("click", (event) => {
       nom: nameForm, 
       id: idProduit,
       quantite: quantityForm.value,    
-      couleur: colorsForm.value,          
+      couleur: colorsForm.value, 
+      url: linkUrl,     
     };      
 
     console.log("Vérification des options enregistré dans le formulaire");      

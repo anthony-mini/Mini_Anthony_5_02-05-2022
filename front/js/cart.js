@@ -1,12 +1,13 @@
-/* ----------------------------------------------------------
-RÉCUPÉRATION DES INFORMATIONS PRÉSENTES DANS LE LOCAL STORAGE    ------------------------------------------------------------- */  
+/* ----------------------
+RÉCUPÉRATION DES INFORMATIONS 
+PRÉSENTES DANS LE LOCAL STORAGE    
+------------------------- */  
 
 // Récupération des information présente dans le Local Storage :
 let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem("produit"));
 
 console.log("Tableau des produits enregistrer dans le Local Storage :");
 console.log(produitEnregistreDansLocalStorage);
-
 
 /* -------------------------------
       FONCTION PANIER VIDE
@@ -27,7 +28,8 @@ const panierVide = () => {
 
 /* -------------------------------------
 AFFICHAGE DES ELEMENTS : 
-MISE EN RELATION DES ELEMENTS DE L'API EN FONCTION DES PRODUITS ENREGISTRE DANS LE LOCAL STORAGE
+MISE EN RELATION DES ELEMENTS DE L'API EN 
+FONCTION DES PRODUITS ENREGISTRE DANS LE LOCAL STORAGE
 ---------------------------------------- */
 
 
@@ -81,12 +83,18 @@ function afficherPanier() {
       let divImage = document.createElement('div');
       article.appendChild(divImage);
       divImage.classList.add('cart__item__img');
-      
+
+      let linkImage = document.createElement('a');
+      divImage.appendChild(linkImage);
+      const lienUrl = produitEnregistreDansLocalStorage[p].url;
+      linkImage.href = lienUrl;
+     
       //Insertion de l'image dans la div img
       let imageInDiv = document.createElement('img');
-      divImage.appendChild(imageInDiv);
+      linkImage.appendChild(imageInDiv);
       imageInDiv.src = produitEnregistreDansLocalStorage[p].imageUrl;
       imageInDiv.alt = produitEnregistreDansLocalStorage[p].altTxt;
+      imageInDiv.classList.add('img__cart')
 
       //creation de la div cart__item__content
       let divContent = document.createElement('div');
