@@ -180,7 +180,7 @@ envoyerPanier.addEventListener("click", (event) => {
     //-- Fonction du message de confirmation sous forme de PopUp.    
 
     const popUpConfirmation = () => {    
-      if(window.confirm(`${quantityForm.value} ${nameForm} de couleur ${colorsForm.value}, à ${priceForm} € / unitée.    
+      if(window.confirm(`\n${quantityForm.value} ${nameForm} de couleur ${colorsForm.value}, à ${priceForm} € / unitée.    
       \nÀ été ajouté au panier.    
       \nVoulez-vous accéder au panier ?`)) {
           window.location.href = "cart.html"    
