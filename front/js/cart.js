@@ -56,6 +56,7 @@ fetch('http://localhost:3000/api/products')
     }
     afficherPanier();
     supprimerProduit();
+    modificationQuantité()
   })
   .catch((err) => { 
     location.assign("erreur.html");
@@ -146,7 +147,7 @@ function afficherPanier() {
       inputQuantity.setAttribute('type', 'number');
       inputQuantity.classList.add('itemQuantity');
       inputQuantity.setAttribute('name', 'itemQuantity');
-      inputQuantity.setAttribute('min', '1');
+      inputQuantity.setAttribute('min', '0');
       inputQuantity.setAttribute('max', '100');
       inputQuantity.value = produitEnregistreDansLocalStorage[p].quantite;
 
@@ -196,7 +197,7 @@ function supprimerProduit() {
         element.id !== idProduitASupprimer || 
         element.couleur !== couleurProduitASupprimer);
 
-        // Actualisation de la clés "produit" avec un reload de la page. 
+        // Actualisation de la clés "produit" puis un reload de la page. 
 
         localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage)); 
         location.reload();
@@ -204,3 +205,69 @@ function supprimerProduit() {
     });
   }
 }
+
+/* -------------------------------
+    FONCTION MODIFICATION DE QUANTITES
+---------------------------------- */
+
+function modificationQuantité() {
+
+  // Selection des références de touts les input gérant la quantité
+
+  const inputQuantite = document.querySelectorAll('.itemQuantity');
+
+  // Boucle for pour écouté tout les éléments
+
+  for(let q = 0; q < inputQuantite.length; q++) {
+    
+    // Ecoute des evements au 'click' sur les input
+
+    inputQuantite[q].addEventListener('click', (event) => {
+
+      event.preventDefault();
+
+      produitEnregistreDansLocalStorage[q].quantite = event.target.value;
+
+      // condition si quantité = 0 => renvoie vers la fonction supprimer produit.
+
+      if (
+        produitEnregistreDansLocalStorage[q].quantite == 0 
+        && produitEnregistreDansLocalStorage[q].quantite <= 100
+        && window.confirm(
+          `\n                     Voulez vous supprimer l'article suivant ? 
+          \n                                           ${produitEnregistreDansLocalStorage[q].nom} 
+          \n                                           Couleur : ${produitEnregistreDansLocalStorage[q].couleur}
+          `)
+      ) {
+        const idProduitASupprimer = produitEnregistreDansLocalStorage[q].id;
+        const couleurProduitASupprimer = produitEnregistreDansLocalStorage[q].couleur;
+
+        // Fitler method 
+
+        produitEnregistreDansLocalStorage = produitEnregistreDansLocalStorage.filter((element) => 
+        element.id !== idProduitASupprimer || 
+        element.couleur !== couleurProduitASupprimer);
+
+        // Actualisation de la clés "produit" puis un reload de la page. 
+
+        localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage)); 
+        location.reload();
+      } 
+      
+      if (produitEnregistreDansLocalStorage[q].quantite > 100 
+        || produitEnregistreDansLocalStorage[q].quantite < 0 ) {
+
+          alert("Error")
+          location.reload();
+      
+      } else {
+        
+        // Actualisation du local storage. 
+
+        localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+        
+      }
+    });  
+  }
+};
+
