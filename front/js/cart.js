@@ -55,6 +55,7 @@ fetch('http://localhost:3000/api/products')
       }
     }
     afficherPanier();
+    supprimerProduit();
   })
   .catch((err) => { 
     location.assign("erreur.html");
@@ -84,6 +85,7 @@ function afficherPanier() {
       article.appendChild(divImage);
       divImage.classList.add('cart__item__img');
 
+      // Creation d'un élément 'a', permettant un retour à la page produit. Avec le lien de l'url stocké dans le local storage.
       let linkImage = document.createElement('a');
       divImage.appendChild(linkImage);
       const lienUrl = produitEnregistreDansLocalStorage[p].url;
@@ -164,3 +166,41 @@ function afficherPanier() {
 /* -------------------------------
     FONCTION SUPPRESSION PRODUIT
 ---------------------------------- */
+
+function supprimerProduit() {
+
+  // Sélection de toutes les références des boutons supprimer
+  const btnSupprimer = document.querySelectorAll(".deleteItem");
+
+  // Boucle for qui va parcourir tout les éléments
+  for (let l = 0; l < btnSupprimer.length; l++) {
+    btnSupprimer[l].addEventListener("click" , (event) => {
+      event.preventDefault(); //eviter le comportement par defaut des boutons (rechargement de la page)
+
+      if(
+        window.confirm(
+          `\n                     Voulez vous supprimer l'article suivant ? 
+          \n                                           ${produitEnregistreDansLocalStorage[l].nom} 
+          \n                                           Couleur : ${produitEnregistreDansLocalStorage[l].couleur}
+          \n                                           Quantités : ${produitEnregistreDansLocalStorage[l].quantite}
+          `)
+      ) {
+        // Selection de l'id et couleur du produit à retirer du localstorage.
+
+        const idProduitASupprimer = produitEnregistreDansLocalStorage[l].id;
+        const couleurProduitASupprimer = produitEnregistreDansLocalStorage[l].couleur;
+
+        // Fitler method : Permet de garder en mémoire tout les éléments du tableau, hormis l'élément produits selectionner par le btn Supprimer. 
+
+        produitEnregistreDansLocalStorage = produitEnregistreDansLocalStorage.filter((element) => 
+        element.id !== idProduitASupprimer || 
+        element.couleur !== couleurProduitASupprimer);
+
+        // Actualisation de la clés "produit" avec un reload de la page. 
+
+        localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage)); 
+        location.reload();
+      }
+    });
+  }
+}
