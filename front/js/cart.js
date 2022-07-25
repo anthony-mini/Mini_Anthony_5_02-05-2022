@@ -56,7 +56,7 @@ fetch('http://localhost:3000/api/products')
     }
     afficherPanier();
     supprimerProduit();
-    modificationQuantité()
+    modificationQuantité();
   })
   .catch((err) => { 
     location.assign("erreur.html");
@@ -161,6 +161,9 @@ function afficherPanier() {
       itemDeleteP.classList.add('deleteItem');
       itemDeleteP.textContent = 'Supprimer';
     }
+      // Appel de la fonction d'affichage du prix et quantité total : 
+
+      afficherQteEtPrixTotal();
   }
 };
 
@@ -222,8 +225,9 @@ function modificationQuantité() {
     
     // Ecoute des evements au 'click' sur les input
 
-    inputQuantite[q].addEventListener('click', (event) => {
+    inputQuantite[q].addEventListener('change', (event) => {
 
+      
       event.preventDefault();
 
       produitEnregistreDansLocalStorage[q].quantite = event.target.value;
@@ -231,7 +235,7 @@ function modificationQuantité() {
       // condition si quantité = 0 => renvoie vers la fonction supprimer produit.
 
       if (
-        produitEnregistreDansLocalStorage[q].quantite == 0 
+        produitEnregistreDansLocalStorage[q].quantite == 0
         && produitEnregistreDansLocalStorage[q].quantite <= 100
         && window.confirm(
           `\n                     Voulez vous supprimer l'article suivant ? 
@@ -254,20 +258,55 @@ function modificationQuantité() {
         location.reload();
       } 
       
-      if (produitEnregistreDansLocalStorage[q].quantite > 100 
+      if (produitEnregistreDansLocalStorage[q].quantite <= 100 
         || produitEnregistreDansLocalStorage[q].quantite < 0 ) {
 
-          alert("Error")
-          location.reload();
+          localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+
+          // Second appel de la fonction afficherQteEtPrixTotal pour modifier de maniere dynamique le prix, sans reload la page. 
+
+          afficherQteEtPrixTotal();
       
       } else {
         
         // Actualisation du local storage. 
-
-        localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+        alert("ERREUR : Veuillez sélectionner un nombre entre 1 et 100 ");
         
+        location.reload();
       }
     });  
   }
 };
 
+/* -------------------------------
+    FONCTION AFFICHIER PRIX TOTAL ET QUANTITES TOTAL PRODUIT
+---------------------------------- */
+
+function afficherQteEtPrixTotal() {
+
+  // Selection des références pour la qté produit, qté total et prix total.
+  
+  let quantiteProduit = document.querySelectorAll(".itemQuantity");
+  
+  let strucutreQuantitePanier = document.querySelector("#totalQuantity");
+  
+  let strucutrePrixTotal = document.querySelector("#totalPrice");
+
+  // Déclaration des valeurs par défauts. 
+
+  let totalQuantitePanier = 0;
+
+  let totalPrix = 0;
+  
+    for (let i = 0; i < quantiteProduit.length; i++) {
+      totalQuantitePanier = quantiteProduit[i].valueAsNumber;
+    }
+  
+    strucutreQuantitePanier.textContent = totalQuantitePanier;
+  
+    for (let i = 0; i < quantiteProduit.length; i++) {
+      totalPrix = quantiteProduit[i].valueAsNumber * produitEnregistreDansLocalStorage[i].price;
+    }
+    
+    strucutrePrixTotal.textContent = totalPrix;
+};
