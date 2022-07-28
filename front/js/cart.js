@@ -70,7 +70,7 @@ fetch('http://localhost:3000/api/products')
 
 function afficherPanier() {
   //Affichage si panier vide :
-  if (produitEnregistreDansLocalStorage === null || produitEnregistreDansLocalStorage.length === 0) {
+  if (produitEnregistreDansLocalStorage === null || produitEnregistreDansLocalStorage.length === 0 ) {
     panierVide();
   } else {
     // si le panier n'est pas vide :
@@ -163,7 +163,9 @@ function afficherPanier() {
     }
       // Appel de la fonction d'affichage du prix et quantité total : 
 
-      afficherQteEtPrixTotal();
+     afficherQteEtPrixTotal();
+     validationFormulaire();
+     validationCommande();
   }
 };
 
@@ -183,10 +185,10 @@ function supprimerProduit() {
 
       if(
         window.confirm(
-          `\n                     Voulez vous supprimer l'article suivant ? 
-          \n                                           ${produitEnregistreDansLocalStorage[l].nom} 
-          \n                                           Couleur : ${produitEnregistreDansLocalStorage[l].couleur}
-          \n                                           Quantités : ${produitEnregistreDansLocalStorage[l].quantite}
+          `\n Voulez vous supprimer l'article suivant ? 
+          \n ${produitEnregistreDansLocalStorage[l].nom} 
+          \n Couleur : ${produitEnregistreDansLocalStorage[l].couleur}
+          \n Quantités : ${produitEnregistreDansLocalStorage[l].quantite}
           `)
       ) {
         // Selection de l'id et couleur du produit à retirer du localstorage.
@@ -236,12 +238,6 @@ function modificationQuantité() {
 
       if (
         produitEnregistreDansLocalStorage[q].quantite == 0
-        && produitEnregistreDansLocalStorage[q].quantite <= 100
-        && window.confirm(
-          `\n                     Voulez vous supprimer l'article suivant ? 
-          \n                                           ${produitEnregistreDansLocalStorage[q].nom} 
-          \n                                           Couleur : ${produitEnregistreDansLocalStorage[q].couleur}
-          `)
       ) {
         const idProduitASupprimer = produitEnregistreDansLocalStorage[q].id;
         const couleurProduitASupprimer = produitEnregistreDansLocalStorage[q].couleur;
@@ -256,10 +252,11 @@ function modificationQuantité() {
 
         localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage)); 
         location.reload();
+
       } 
-      
-      if (produitEnregistreDansLocalStorage[q].quantite <= 100 
-        || produitEnregistreDansLocalStorage[q].quantite < 0 ) {
+
+      if (
+        produitEnregistreDansLocalStorage[q].quantite > 0 &&    produitEnregistreDansLocalStorage[q].quantite <= 100 && produitEnregistreDansLocalStorage[q].quantite !=0 ) {
 
           localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
 
@@ -267,14 +264,15 @@ function modificationQuantité() {
 
           afficherQteEtPrixTotal();
       
-      } else {
+      } 
+        else {
         
         // Actualisation du local storage. 
         alert("ERREUR : Veuillez sélectionner un nombre entre 1 et 100 ");
         
         location.reload();
       }
-    });  
+  });  
   }
 };
 
@@ -309,4 +307,165 @@ function afficherQteEtPrixTotal() {
     }
     
     strucutrePrixTotal.textContent = totalPrix;
+};
+
+/* -------------------------------
+            REGEX
+---------------------------------- */
+
+let nomRegex = new RegExp(/^[a-zA-Zàâäéèêëïîôöùûüç ,.'-]+$/);
+
+let emailRegex = new RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-z]{2,3})$/);
+
+let adressRegex = new RegExp(/^[0-9 A-Za-z'-]{1,40}$/);
+
+
+/* -------------------------------
+VALIDATION DU FORMULAIRE
+---------------------------------- */
+
+function validationFormulaire() {
+
+  // PRENOM 
+
+  let prenomFamille = document.querySelector("#firstName");
+
+  prenomFamille.addEventListener('input', () => { 
+
+    if (nomRegex.test(prenomFamille.value) === false) {
+      document.querySelector("#firstNameErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre prenom";
+    } else {
+      document.querySelector("#firstNameErrorMsg").textContent = "";
+    };
+  });
+
+  // NOM DE FAMILLE  
+
+  let nomFamille = document.querySelector("#lastName");
+
+  nomFamille.addEventListener('input', () => { 
+
+    if (nomRegex.test(nomFamille.value) === false) {
+      document.querySelector("#lastNameErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre nom";
+    } else {
+      document.querySelector("#lastNameErrorMsg").textContent = "";
+    };
+  });
+
+  // ADRESSE 
+
+  let adressePostale = document.querySelector("#address");
+
+  adressePostale.addEventListener('input', () => { 
+
+    if (adressRegex.test(adressePostale.value) === false) {
+      document.querySelector("#addressErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre adresse";
+    } else {
+      document.querySelector("#addressErrorMsg").textContent = "";
+    };
+  });
+
+    // VILLE
+
+    let ville = document.querySelector("#city");
+
+    ville.addEventListener('input', () => { 
+  
+      if (nomRegex.test(ville.value) === false) {
+        document.querySelector("#cityErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre ville";
+      } else {
+        document.querySelector("#cityErrorMsg").textContent = "";
+      };
+    });
+
+    // EMAIL
+
+    let email = document.querySelector("#email");
+
+    email.addEventListener('input', () => { 
+  
+      if (emailRegex.test(email.value) === false) {
+        document.querySelector("#emailErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre adresse mail";
+      } else {
+        document.querySelector("#emailErrorMsg").textContent = "";
+      };
+    }); 
+};
+
+/* -------------------------------
+VALIDATION DE LA COMMANDE
+---------------------------------- */
+
+function validationCommande() {
+
+  // Selection de la référence pour le bouton 'commander' :
+
+  let btnCommander = document.querySelector("#order");
+
+  // Écoute de l'evenement au click du bouton : 
+
+    btnCommander.addEventListener('click', (event) => {
+    
+    event.preventDefault(); 
+
+    // Condition de confirmation du formulaire : Si tout les Regex ont étés contrôlé et validés.
+    if ( 
+      !nomRegex.test(firstName.value) ||
+      !nomRegex.test(lastName.value) ||
+      !adressRegex.test(address.value) ||
+      !nomRegex.test(city.value) ||
+      !emailRegex.test(email.value)
+      ) {
+        alert("Veuillez vérifier les champs de complétion du formulaire")
+    } else {
+
+      // Creation d'un tableau pour récupérer les ID produits : 
+
+      let productId = [];
+
+      // Boucle for pour parcourir tout les elements : 
+
+      for(let i = 0; i < produitEnregistreDansLocalStorage.lenght; i++) {
+        productId.push(produitEnregistreDansLocalStorage[i].id);
+      };
+
+      // Creation de l'objet contact à partir des données du formulaire et tableau produit content les id des produits. 
+
+      let order = {
+        contact: {
+          firstName : firstName.value,
+          lastName : lastName.value,
+          adress : address.value,
+          city : city.value,
+          email : email.value
+        },
+        products: id,
+      };
+
+      const optionPost = {
+        method: 'POST',
+          body: JSON.stringify(order),
+          headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json',
+          },
+      };
+
+      fetch('http://localhost:3000/api/products/order', optionPost)
+        .then((response) => {
+          return response.json();
+        })
+        .then((dataBase) => {
+          const orderId = dataBase.orderId;
+
+          console.log(orderId);
+
+          //envoie vers la page de de confirmation
+          window.location.href = 'confirmation.html' + '?orderId=' + orderId;
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    };
+    });
 };
