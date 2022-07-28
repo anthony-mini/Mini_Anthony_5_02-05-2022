@@ -6,9 +6,6 @@ RÉCUPÉRATION DE L'ID DU PRODUIT À AFFICHER
 
 const urlProduit = new URLSearchParams(document.location.search);
 
-console.log("Affichage de l'url produit :");
-console.log(document.location);
-
 const idProduit = urlProduit.get("id");
 
 console.log("Identification de l'id du produit :");
