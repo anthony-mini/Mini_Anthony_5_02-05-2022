@@ -298,13 +298,15 @@ function afficherQteEtPrixTotal() {
   let totalPrix = 0;
   
     for (let i = 0; i < quantiteProduit.length; i++) {
-      totalQuantitePanier = quantiteProduit[i].valueAsNumber;
+      // L'opérateur d'addition (+=) : permet l'addition de la quantite du dernière objet du tableau + tout les autres elements grâce à la boucle.
+
+      totalQuantitePanier += quantiteProduit[i].valueAsNumber;
     }
   
     strucutreQuantitePanier.textContent = totalQuantitePanier;
   
     for (let i = 0; i < quantiteProduit.length; i++) {
-      totalPrix = quantiteProduit[i].valueAsNumber * produitEnregistreDansLocalStorage[i].price;
+      totalPrix += quantiteProduit[i].valueAsNumber * produitEnregistreDansLocalStorage[i].price;
     }
     
     strucutrePrixTotal.textContent = totalPrix;
