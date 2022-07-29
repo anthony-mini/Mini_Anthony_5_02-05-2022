@@ -8,9 +8,6 @@ const urlProduit = new URLSearchParams(document.location.search);
 
 const idProduit = urlProduit.get("id");
 
-console.log("Identification de l'id du produit :");
-console.log(idProduit);
-
 // -- Récupération des produits via l'API.
 
 fetch('http://localhost:3000/api/products')
@@ -70,8 +67,6 @@ function produits (produit) {
 
         choixCouleurs.innerHTML += `<option value="${optionCouleur}">${optionCouleur}</option>`;      
 
-        console.log("Visualisation des couleurs disponible selon le produit :");    
-        console.log(optionCouleur);        
       };    
     };      
   };
@@ -92,9 +87,6 @@ structureColorOption.addEventListener("input", (event) => {
 
   couleurProduit = event.target.value;
 
-  console.log("Visualisation de la couleur sélectionné :");
-  console.log(couleurProduit);
-
 });
 
 // ---- QUANTITE ---- //
@@ -107,9 +99,6 @@ structureQuantiteOption.addEventListener("input", (event) => {
 
   quantiteProduit = event.target.value;
   
-  console.log("Visualisation de la quantitée sélectionné :");
-  console.log(quantiteProduit);
-
 });
 
 
@@ -169,11 +158,7 @@ envoyerPanier.addEventListener("click", (event) => {
     let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('produit'));    
     // JSON.parse pour convertir les données au format JSON qui sont dans le local storage en Objet JavaScript.
         
-    console.log("Valeur de produitEnregistreDansLocalStorage : (null si pas de clés");    
-    console.log(produitEnregistreDansLocalStorage);    
-
-
-
+    
     //-- Fonction du message de confirmation sous forme de PopUp.    
 
     const popUpConfirmation = () => {    
