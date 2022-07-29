@@ -97,10 +97,15 @@ let quantiteProduit;
 
 structureQuantiteOption.addEventListener("input", (event) => {
 
-  quantiteProduit = event.target.value;
+  // Verifie si la quanité n'est pas inférieur à 0 et n'est pas supérieur à 100, sinon --> Prend en compte la valeur de l'input dans la varible quantiteProduit.
+  if(quantity.value < 0 || quantity.value > 100) {
+    alert("Veuillez selectionner un nombre entre 1 et 100");
+    location.reload();
+  } else {
+    quantiteProduit = event.target.value;
+  }
   
 });
-
 
 /* ---------------------------------------------------
 AJOUT DES PRODUITS DANS LE PANIER À L'ÉCOUTE DU BOUTON 
@@ -121,7 +126,8 @@ envoyerPanier.addEventListener("click", (event) => {
 
   // Permet de vérifier qu'une Couleur est séléctionnée : Si le param. value n'a pas de valeur -> Affichage du message d'erreur  
   if (!colors.value) return (alert ('Aucune couleur séléctionnée'))    
-  // Si param. quantity rempli les contions si dessous on récupère les valeurs.   
+  // Si param. quantity rempli les contions si dessous on récupère les valeurs. 
+  
   if (quantity.value > 0 && quantity.value <= 100 && quantity.value != 0){    
         
       // -------- Déclaration des variables contenant les choix d'options de l'utilisateur présent dans le formulaire.   
@@ -144,11 +150,7 @@ envoyerPanier.addEventListener("click", (event) => {
       couleur: colorsForm.value, 
       url: linkUrl,     
     };      
-
-    console.log("Vérification des options enregistré dans le formulaire");      
-    console.log(optionProduit);    
-      
-
+       
     /* --------------------------------
                 LE LOCAL STORAGE              
     ----------------------------------- */      
