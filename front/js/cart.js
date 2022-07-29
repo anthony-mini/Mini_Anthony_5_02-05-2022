@@ -165,6 +165,8 @@ function afficherPanier() {
 
      afficherQteEtPrixTotal();
      validationFormulaire();
+     viderPanier();
+     retourPageProduit();
   }
 };
 
@@ -306,6 +308,49 @@ function afficherQteEtPrixTotal() {
     }
     
     strucutrePrixTotal.textContent = totalPrix;
+};
+
+/* -------------------------------
+    FONCTION VIDER PANIER
+---------------------------------- */
+
+function viderPanier(){
+
+  // Selection du btn 
+
+  const btnViderPanier = document.querySelector("#btnViderPanier");
+
+  // Ecoute du click sur le bouton 
+
+  btnViderPanier.addEventListener('click', (event) => {
+
+    event.preventDefault;
+
+    if (
+      window.confirm(
+        "Êtes vous sur de vouloir vider votre panier ?")
+      ) {
+        window.localStorage.clear();
+        location.reload();
+      }
+  })
+};
+
+/* -------------------------------
+    FONCTION CONTINUEZ MES ACAHTS
+---------------------------------- */
+
+function retourPageProduit() {
+
+  const btnReturnAcc = document.querySelector("#btnReturnAcc");
+
+  btnReturnAcc.addEventListener('click', (event) => {
+
+    event.preventDefault();
+
+    window.location.href = 'index.html';
+
+  });
 };
 
 /* -------------------------------
