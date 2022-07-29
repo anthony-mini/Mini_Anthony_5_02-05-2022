@@ -1,15 +1,23 @@
-// recuperation du lien et de l'orderId
+/* -------------------------------
+RECUPERATION ET AFFICHAGE DE L'ORDER PRESENT DANS L'URL
+---------------------------------- */
 
-let params = new URLSearchParams(window.location.search);
+function main () {
 
-console.log(params);
+    // recuperation du l'Url et sélection de l'orderId
 
-const orderId = params.get('orderId');
+    let urlParams = new URLSearchParams(window.location.search);
+    let orderId = urlParams.get('orderId');
 
-//insertion de l'orderId dans l'HTML
-let orderNumber = document.querySelector('#orderId');
-orderNumber.innerHTML = orderId + ' <br> Merci de votre commande !';
+    // Affichage de l'orderId
 
-//suppression du localStorage
-let removeStorage = window.localStorage;
-removeStorage.clear();
+    let orderNumber = document.querySelector('#orderId');
+    orderNumber.innerHTML = orderId + ' <br> Merci de votre commande !';
+
+    // Suppression du localStorage
+
+    window.localStorage.clear();
+};
+
+main ();
+
