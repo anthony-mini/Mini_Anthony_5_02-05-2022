@@ -144,6 +144,21 @@ h2 {
 	.cart__item__content__titlePrice {
 		flex-direction: column;
 	}
+
+	.cart__price {
+		flex-wrap: wrap;
+	}
+
+	#btnReturnAcc {
+		font-size: 15px;
+		padding: 10px 18px;
+		margin: 7px -6px!important;
+	}
+
+	#btnViderPanier {
+		font-size: 15px;
+		padding: 10px 18px;
+	}
 }
 
 @media (max-width: 575.98px) { 
@@ -191,6 +206,45 @@ h2 {
 	width: auto;
 }
 
-.img__cart:hover {
+.btnAccueil:hover {
+	box-shadow: rgba(42, 18, 206, 0.9) 0 0 22px 6px;
+}
+
+/* ---------------------------------------
+BTN CONTINUER ACHAT & VIDER PANIER
+------------------------------------------ */
+.cart__price {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#btnReturnAcc {
+ 	cursor: pointer;
+	 font-size: 22px;
+	 border-radius: 20px;
+	 border: 0;
+	 background-color: var(--secondary-color);
+	 color: white;
+	 padding: 18px 28px;
+	 margin: 10px 20px;
+}
+
+#btnReturnAcc:hover {
+	box-shadow: rgba(42, 18, 206, 0.9) 0 0 22px 6px;
+}
+
+#btnViderPanier {
+	cursor: pointer;
+	font-size: 22px;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 18px 28px;
+	margin: 10px 20px;
+}
+
+#btnViderPanier:hover {
 	box-shadow: rgba(42, 18, 206, 0.9) 0 0 22px 6px;
 }
