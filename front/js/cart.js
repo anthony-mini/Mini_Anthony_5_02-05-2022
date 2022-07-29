@@ -165,7 +165,6 @@ function afficherPanier() {
 
      afficherQteEtPrixTotal();
      validationFormulaire();
-     validationCommande();
   }
 };
 
@@ -321,7 +320,7 @@ let adressRegex = new RegExp(/^[0-9 A-Za-z'-]{1,40}$/);
 
 
 /* -------------------------------
-VALIDATION DU FORMULAIRE
+    VALIDATION DU FORMULAIRE
 ---------------------------------- */
 
 function validationFormulaire() {
@@ -341,11 +340,11 @@ function validationFormulaire() {
 
   // NOM DE FAMILLE  
 
-  let nomFamille = document.querySelector("#lastName");
+  let firstName = document.querySelector("#lastName");
 
-  nomFamille.addEventListener('input', () => { 
+  firstName.addEventListener('input', () => { 
 
-    if (nomRegex.test(nomFamille.value) === false) {
+    if (nomRegex.test(firstName.value) === false) {
       document.querySelector("#lastNameErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre nom";
     } else {
       document.querySelector("#lastNameErrorMsg").textContent = "";
@@ -354,11 +353,11 @@ function validationFormulaire() {
 
   // ADRESSE 
 
-  let adressePostale = document.querySelector("#address");
+  let address = document.querySelector("#address");
 
-  adressePostale.addEventListener('input', () => { 
+  address.addEventListener('input', () => { 
 
-    if (adressRegex.test(adressePostale.value) === false) {
+    if (adressRegex.test(address.value) === false) {
       document.querySelector("#addressErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre adresse";
     } else {
       document.querySelector("#addressErrorMsg").textContent = "";
@@ -367,11 +366,11 @@ function validationFormulaire() {
 
     // VILLE
 
-    let ville = document.querySelector("#city");
+    let city = document.querySelector("#city");
 
-    ville.addEventListener('input', () => { 
+    city.addEventListener('input', () => { 
   
-      if (nomRegex.test(ville.value) === false) {
+      if (nomRegex.test(city.value) === false) {
         document.querySelector("#cityErrorMsg").textContent = "Caractères spéciaux non pris en compte pour votre ville";
       } else {
         document.querySelector("#cityErrorMsg").textContent = "";
@@ -390,82 +389,92 @@ function validationFormulaire() {
         document.querySelector("#emailErrorMsg").textContent = "";
       };
     }); 
+    
 };
 
 /* -------------------------------
-VALIDATION DE LA COMMANDE
+    VALIDATION DE LA COMMANDE
 ---------------------------------- */
 
 function validationCommande() {
 
-  // Selection de la référence pour le bouton 'commander' :
+  // Selection de la référence pour le bouton 'commander'
 
-  let btnCommander = document.querySelector("#order");
+  const btnCommander = document.querySelector('#order');
 
-  // Écoute de l'evenement au click du bouton : 
+  // Écoute de l'evenement au click du bouton 
 
-    btnCommander.addEventListener('click', (event) => {
+  btnCommander.addEventListener('click', (event) => {
     
-    event.preventDefault(); 
+    event.preventDefault();
 
     // Condition de confirmation du formulaire : Si tout les Regex ont étés contrôlé et validés.
-    if ( 
+
+    if (
       !nomRegex.test(firstName.value) ||
       !nomRegex.test(lastName.value) ||
-      !adressRegex.test(address.value) ||
+      !emailRegex.test(email.value) ||
       !nomRegex.test(city.value) ||
-      !emailRegex.test(email.value)
-      ) {
-        alert("Veuillez vérifier les champs de complétion du formulaire")
+      !adressRegex.test(address.value)
+    ) {
+      alert("Veuillez vérifier les champs de complétion du formulaire");
+
     } else {
 
-      // Creation d'un tableau pour récupérer les ID produits : 
+      // Creation d'un tableau pour récupérer les ID produits :
 
       let productId = [];
 
-      // Boucle for pour parcourir tout les elements : 
+      // Boucle for pour parcourir tout les elements :
 
-      for(let i = 0; i < produitEnregistreDansLocalStorage.lenght; i++) {
+      for (let i = 0; i < produitEnregistreDansLocalStorage.length; i++) {
+
+        // method PUSH pour ajouter un ou plusieurs elements dans le tableau 'productId'
+
         productId.push(produitEnregistreDansLocalStorage[i].id);
-      };
+      }
 
-      // Creation de l'objet contact à partir des données du formulaire et tableau produit content les id des produits. 
+    // Creation de l'objet contact à partir des données du formulaire et du tableau productId.  
 
       let order = {
         contact: {
-          firstName : firstName.value,
-          lastName : lastName.value,
-          adress : address.value,
-          city : city.value,
-          email : email.value
+          firstName: firstName.value,
+          lastName: lastName.value,
+          address: address.value,
+          city: city.value,
+          email: email.value,
         },
-        products: id,
+        products: productId,
       };
+      
+      // Options de la method POST. 
 
-      const optionPost = {
+      const options = {
         method: 'POST',
-          body: JSON.stringify(order),
-          headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json',
-          },
+        body: JSON.stringify(order),
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+        },
       };
 
-      fetch('http://localhost:3000/api/products/order', optionPost)
-        .then((response) => {
-          return response.json();
-        })
+      // Appel de l'API et Envoie des informations contact & products à l'aide de la méthode POST. 
+
+      fetch('http://localhost:3000/api/products/order', options)
+        .then((response) =>  response.json())
+        
         .then((dataBase) => {
+          
           const orderId = dataBase.orderId;
 
-          console.log(orderId);
-
-          //envoie vers la page de de confirmation
+          //envoie vers la page de de confirmation avec l'orderId en fin de l'URL.
           window.location.href = 'confirmation.html' + '?orderId=' + orderId;
         })
         .catch((error) => {
           alert(error);
         });
-    };
-    });
-};
+    }
+  });
+}
+
+validationCommande();
