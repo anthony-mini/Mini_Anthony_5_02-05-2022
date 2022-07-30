@@ -22,6 +22,7 @@
 	border-radius: 15px;
 }
 .item__content {
+	position: relative;
 	width: 100%;
 	color: white;
 	display: flex;
@@ -118,4 +119,119 @@
 	.item article {
 		width: 90%;
 	}
+}
+
+/***************/
+/*Model Pop Up*/
+/***************/
+
+.model-container {
+	transform: scale(0);
+    /* visibility: hidden; */
+	background-color: rgba(255, 255, 255, 0.55);
+	z-index: 998;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.model{
+	z-index: 999;
+	transform: scale(0);
+	transition: transform 0.5s ease-in;
+	position: relative;
+	top: 20px;
+    background-color: rgb(255, 255, 255);
+	box-shadow: rgba(43, 18, 206, 0.444) 0 0 22px 8px; ;
+    border-radius: 15px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 550px;
+    height: 300px;
+	padding: 5px 25px;
+}
+
+.model__h {
+color: black;
+font-size: 25px;
+margin: 7px 0px;
+}
+
+.model__p {
+	color: black;
+	color: black;
+    margin: 35px 50px;
+    text-align: -webkit-center;
+	font-size: 20px;
+}
+
+.btn--model {
+	display: flex;
+    align-content: center;
+    flex-direction: row;
+    align-items: center;
+	margin: 0px 5px;
+}
+.btn--model__oui {
+	text-decoration: none;
+	margin: 0px 10px;
+	cursor: pointer;
+	font-size: 20px;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 15px!important;
+	width: 230px;
+    text-align: center;
+}
+
+.btn--model__oui:hover {
+	text-decoration: none;
+	box-shadow: rgba(42, 18, 206, 0.9) 0 0 8px 2px;
+}
+
+.btn--model__non {
+	text-decoration: none;
+	margin: 0px 10px;
+	cursor: pointer;
+	font-size: 20px;
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 15px!important;
+	width: 230px;
+    text-align: center;
+}
+
+.btn--model__non:hover {
+	text-decoration: none;
+	box-shadow: rgba(42, 18, 206, 0.9) 0 0 8px 2px;
+}
+
+.close {
+	position: absolute;
+	top: 10px;
+	right: 4px;
+	margin: 0px 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 21px;
+    border: 0;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 6px 10px!important;
+}
+
+.close:hover {
+	box-shadow: rgba(42, 18, 206, 0.9) 0 0 8px 2px;
 }
