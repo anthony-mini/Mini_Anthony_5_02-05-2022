@@ -138,8 +138,6 @@ envoyerPanier.addEventListener("click", (event) => {
       const priceForm = document.querySelector("#price").textContent;    
       
       const linkUrl = document.location.href;
-      console.log("Lien url du produit :");
-      console.log(linkUrl);
     
       // ----- Récupération des valeurs du formulaire    
 
@@ -159,18 +157,44 @@ envoyerPanier.addEventListener("click", (event) => {
 
     let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('produit'));    
     // JSON.parse pour convertir les données au format JSON qui sont dans le local storage en Objet JavaScript.
-        
-    
-    //-- Fonction du message de confirmation sous forme de PopUp.    
+  
+  
+ /* --------------------------------
+                POP UP              
+  ----------------------------------- */ 
 
-    const popUpConfirmation = () => {    
-      if(window.confirm(`\n${quantityForm.value} ${nameForm} de couleur ${colorsForm.value}, à ${priceForm} € / unitée.    
-      \nÀ été ajouté au panier.    
-      \nVoulez-vous accéder au panier ?`)) {
-          window.location.href = "cart.html"    
-        };    
-      };   
-      
+  function PopUp() {
+    const modelContainer = document.querySelector(".model-container");
+    modelContainer.style.transform = "scale(1)";
+
+    const model = document.querySelector(".model"
+    );
+    model.style.transform = "scale(1)";
+
+    const modelH = document.querySelector(".model__h");
+    modelH.textContent = "Produit ajouté au panier !"
+
+    const modelP = document.querySelector(".model__p");
+    modelP.textContent = `${quantityForm.value} ${nameForm} de couleur ${colorsForm.value} à été ajouté à votre panier ! `;
+
+    const btnOui = document.querySelector(".btn--model__oui");
+    btnOui.textContent = "Accéder au panier";
+    btnOui.href = "cart.html"
+
+    const btnNon = document.querySelector(".btn--model__non");
+    btnNon.textContent = "Continuez vos achats";
+    btnNon.href = "index.html";
+
+    const btnClose = document.querySelector(".close");
+
+    btnClose.addEventListener('click', (event) => {
+
+      event.preventDefault;
+
+      modelContainer.style.transform = "scale(0)";
+      modelContainer.style.transform = "scale(0)";
+    })
+  };
       
     //-- Fonction ajouter un produit sélectionné dans le localstorage
 
@@ -199,7 +223,7 @@ envoyerPanier.addEventListener("click", (event) => {
             // Envoie de mise à jour s'il n'y pas plus de 100 produits au panier :
             if (produitEnregistreDansLocalStorage[key].quantite <= 100)
 
-            popUpConfirmation();
+            PopUp();
 
             // Update des informations déjà présente dans la clé "produit" et envoie des nouvelles valeurs.
             localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
@@ -210,7 +234,7 @@ envoyerPanier.addEventListener("click", (event) => {
         // Si la première condition est fausse : Alors le produit ne se trouve pas dans le panier
         if (!update) {
 
-          popUpConfirmation(); 
+          PopUp();
 
           ajoutProduitLocalStorage();
 
@@ -220,7 +244,7 @@ envoyerPanier.addEventListener("click", (event) => {
       // Je crée un tableau pour les élément choisi par les utilisateurs
       produitEnregistreDansLocalStorage = [];
 
-      popUpConfirmation();
+      PopUp();
 
       ajoutProduitLocalStorage();
       

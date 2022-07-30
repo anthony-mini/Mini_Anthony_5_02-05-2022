@@ -182,35 +182,69 @@ function supprimerProduit() {
   // Boucle for qui va parcourir tout les éléments
   for (let l = 0; l < btnSupprimer.length; l++) {
     btnSupprimer[l].addEventListener("click" , (event) => {
+
       event.preventDefault(); //eviter le comportement par defaut des boutons (rechargement de la page)
 
-      if(
-        window.confirm(
-          `\n Voulez vous supprimer l'article suivant ? 
-          \n ${produitEnregistreDansLocalStorage[l].nom} 
-          \n Couleur : ${produitEnregistreDansLocalStorage[l].couleur}
-          \n Quantités : ${produitEnregistreDansLocalStorage[l].quantite}
-          `)
-      ) {
-        // Selection de l'id et couleur du produit à retirer du localstorage.
+      // --------- POPUP FONCTION ----------- //
+      
+      function PopUp() {
+        
+      const modelContainer = document.querySelector(".model-container");
+      modelContainer.style.transform = "scale(1)";
 
-        const idProduitASupprimer = produitEnregistreDansLocalStorage[l].id;
-        const couleurProduitASupprimer = produitEnregistreDansLocalStorage[l].couleur;
+      const model = document.querySelector(".model");
+      model.style.transform = "scale(1)";
 
-        // Fitler method : Permet de garder en mémoire tout les éléments du tableau, hormis l'élément produits selectionner par le btn Supprimer. 
+      const modelH = document.querySelector(".model__h");
+      modelH.textContent = "Êtes-vous sûr de vouloir supprimer ce produit"
 
-        produitEnregistreDansLocalStorage = produitEnregistreDansLocalStorage.filter((element) => 
-        element.id !== idProduitASupprimer || 
-        element.couleur !== couleurProduitASupprimer);
+      const modelP = document.querySelector(".model__p");
+      modelP.textContent = `${produitEnregistreDansLocalStorage[l].nom} de couleur ${produitEnregistreDansLocalStorage[l].couleur} ?`;
 
-        // Actualisation de la clés "produit" puis un reload de la page. 
+      const btnOui = document.querySelector(".btn--model__oui");
 
-        localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage)); 
-        location.reload();
-      }
-    });
+      const btnNon = document.querySelector(".btn--model__non");
+      
+      const btnClose = document.querySelector(".close");
+
+      btnClose.addEventListener('click', (event) => {
+        event.preventDefault;
+
+          modelContainer.style.transform = "scale(0)";
+          modelContainer.style.transform = "scale(0)";
+      });
+
+      btnNon.addEventListener('click', (event) => {
+           event.preventDefault;
+
+          modelContainer.style.transform = "scale(0)";
+          modelContainer.style.transform = "scale(0)";
+      });
+
+      btnOui.addEventListener('click', (event) => {
+        event.preventDefault;
+
+          // Selection de l'id et couleur du produit à retirer du localstorage.
+
+          const idProduitASupprimer = produitEnregistreDansLocalStorage[l].id;
+          const couleurProduitASupprimer = produitEnregistreDansLocalStorage[l].couleur;
+
+          // Fitler method : Permet de garder en mémoire tout les éléments du tableau, hormis l'élément produits selectionner par le btn Supprimer. 
+
+          produitEnregistreDansLocalStorage = produitEnregistreDansLocalStorage.filter((element) => 
+          element.id !== idProduitASupprimer || 
+          element.couleur !== couleurProduitASupprimer);
+
+          // Actualisation de la clés "produit" puis un reload de la page. 
+
+          localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage)); 
+          location.reload();
+      });
+    };
+    PopUp(); 
+  });
   }
-}
+};
 
 /* -------------------------------
     FONCTION MODIFICATION DE QUANTITES
@@ -328,15 +362,46 @@ function viderPanier(){
 
     event.preventDefault;
 
-    if (
-      window.confirm(
-        "Êtes vous sur de vouloir vider votre panier ?")
-      ) {
-        window.localStorage.clear();
-        location.reload();
-      }
-  })
-};
+    const modelContainer = document.querySelector(".model-container");
+      modelContainer.style.transform = "scale(1)";
+
+      const model = document.querySelector(".model");
+      model.style.transform = "scale(1)";
+
+      const modelH = document.querySelector(".model__h");
+      modelH.textContent = "Êtes-vous sûr de vouloir vider votre panier ?"
+
+      const modelP = document.querySelector(".model__p");
+      modelP.textContent = "";
+
+      const btnOui = document.querySelector(".btn--model__oui");
+
+      const btnNon = document.querySelector(".btn--model__non");
+      
+      const btnClose = document.querySelector(".close");
+
+      btnClose.addEventListener('click', (event) => {
+        event.preventDefault;
+
+          modelContainer.style.transform = "scale(0)";
+          modelContainer.style.transform = "scale(0)";
+      });
+
+      btnNon.addEventListener('click', (event) => {
+           event.preventDefault;
+
+          modelContainer.style.transform = "scale(0)";
+          modelContainer.style.transform = "scale(0)";
+      });
+
+      btnOui.addEventListener('click', (event) => {
+        event.preventDefault;
+          
+          window.localStorage.clear();
+          location.reload();
+      })
+  });
+}
 
 /* -------------------------------
     FONCTION CONTINUEZ MES ACAHTS
