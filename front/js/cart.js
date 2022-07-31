@@ -211,14 +211,14 @@ function supprimerProduit() {
         event.preventDefault;
 
           modelContainer.style.transform = "scale(0)";
-          modelContainer.style.transform = "scale(0)";
+          model.style.transform = "scale(0)";
       });
 
       btnNon.addEventListener('click', (event) => {
            event.preventDefault;
 
           modelContainer.style.transform = "scale(0)";
-          modelContainer.style.transform = "scale(0)";
+          model.style.transform = "scale(0)";
       });
 
       btnOui.addEventListener('click', (event) => {
@@ -384,14 +384,14 @@ function viderPanier(){
         event.preventDefault;
 
           modelContainer.style.transform = "scale(0)";
-          modelContainer.style.transform = "scale(0)";
+          model.style.transform = "scale(0)";
       });
 
       btnNon.addEventListener('click', (event) => {
            event.preventDefault;
 
           modelContainer.style.transform = "scale(0)";
-          modelContainer.style.transform = "scale(0)";
+          model.style.transform = "scale(0)";
       });
 
       btnOui.addEventListener('click', (event) => {
