@@ -134,8 +134,7 @@ envoyerPanier.addEventListener("click", (event) => {
 
       const quantityForm = document.querySelector("#quantity");    
       const colorsForm = document.querySelector("#colors");    
-      const nameForm = document.querySelector("#title").textContent;   
-      const priceForm = document.querySelector("#price").textContent;    
+      const nameForm = document.querySelector("#title").textContent;    
       
       const linkUrl = document.location.href;
     
@@ -167,8 +166,7 @@ envoyerPanier.addEventListener("click", (event) => {
     const modelContainer = document.querySelector(".model-container");
     modelContainer.style.transform = "scale(1)";
 
-    const model = document.querySelector(".model"
-    );
+    const model = document.querySelector(".model");
     model.style.transform = "scale(1)";
 
     const modelH = document.querySelector(".model__h");
@@ -192,7 +190,7 @@ envoyerPanier.addEventListener("click", (event) => {
       event.preventDefault;
 
       modelContainer.style.transform = "scale(0)";
-      modelContainer.style.transform = "scale(0)";
+      model.style.transform = "scale(0)";
     })
   };
       
@@ -228,7 +226,18 @@ envoyerPanier.addEventListener("click", (event) => {
             // Update des informations déjà présente dans la clé "produit" et envoie des nouvelles valeurs.
             localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
             update = true;
-            
+
+            if (produitEnregistreDansLocalStorage[key].quantite > 100){
+              
+              // On update de la clés [key] du produit selectionner (pour eviter de supprimer tout les autres produits ajoutés au panier) avec la valeur maximal de 100.
+              
+              produitEnregistreDansLocalStorage[key] = {nom: nameForm, id: idProduit, quantite: "100", couleur: colorsForm.value, url: linkUrl};
+
+              localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
+              
+              alert("Quantité maximum ajouté au panier !");
+
+            }
         };
       });
         // Si la première condition est fausse : Alors le produit ne se trouve pas dans le panier
