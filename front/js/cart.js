@@ -183,35 +183,30 @@ function supprimerProduit() {
   for (let l = 0; l < btnSupprimer.length; l++) {
     btnSupprimer[l].addEventListener("click" , (event) => {
 
-      event.preventDefault(); //eviter le comportement par defaut des boutons (rechargement de la page)
+    event.preventDefault(); //eviter le comportement par defaut des boutons (rechargement de la page)
 
       // --------- POPUP FONCTION ----------- //
-      
+      let modelContainer = document.querySelector(".model-container");
+      let model = document.querySelector(".model");
+      let modelH = document.querySelector(".model__h");
+      let modelP = document.querySelector(".model__p");
+      let btnOui = document.querySelector(".btn--model__oui");
+      let btnNon = document.querySelector(".btn--model__non");
+      let btnClose = document.querySelector(".close");
+
       function PopUp() {
-        
-      const modelContainer = document.querySelector(".model-container");
       modelContainer.style.transform = "scale(1)";
-
-      const model = document.querySelector(".model");
       model.style.transform = "scale(1)";
-
-      const modelH = document.querySelector(".model__h");
       modelH.textContent = "Êtes-vous sûr de vouloir supprimer ce produit"
-
-      const modelP = document.querySelector(".model__p");
       modelP.textContent = `${produitEnregistreDansLocalStorage[l].nom} de couleur ${produitEnregistreDansLocalStorage[l].couleur} ?`;
-
-      const btnOui = document.querySelector(".btn--model__oui");
-
-      const btnNon = document.querySelector(".btn--model__non");
-      
-      const btnClose = document.querySelector(".close");
 
       btnClose.addEventListener('click', (event) => {
         event.preventDefault;
 
           modelContainer.style.transform = "scale(0)";
           model.style.transform = "scale(0)";
+
+          location.reload();
       });
 
       btnNon.addEventListener('click', (event) => {
@@ -219,6 +214,8 @@ function supprimerProduit() {
 
           modelContainer.style.transform = "scale(0)";
           model.style.transform = "scale(0)";
+
+          location.reload();
       });
 
       btnOui.addEventListener('click', (event) => {
@@ -362,23 +359,18 @@ function viderPanier(){
 
     event.preventDefault;
 
-    const modelContainer = document.querySelector(".model-container");
+    let modelContainer = document.querySelector(".model-container");
+    let model = document.querySelector(".model");
+    let modelH = document.querySelector(".model__h");
+    let modelP = document.querySelector(".model__p");
+    let btnOui = document.querySelector(".btn--model__oui");
+    let btnNon = document.querySelector(".btn--model__non");
+    let btnClose = document.querySelector(".close");
+    
       modelContainer.style.transform = "scale(1)";
-
-      const model = document.querySelector(".model");
       model.style.transform = "scale(1)";
-
-      const modelH = document.querySelector(".model__h");
       modelH.textContent = "Êtes-vous sûr de vouloir vider votre panier ?"
-
-      const modelP = document.querySelector(".model__p");
       modelP.textContent = "";
-
-      const btnOui = document.querySelector(".btn--model__oui");
-
-      const btnNon = document.querySelector(".btn--model__non");
-      
-      const btnClose = document.querySelector(".close");
 
       btnClose.addEventListener('click', (event) => {
         event.preventDefault;

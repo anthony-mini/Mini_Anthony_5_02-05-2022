@@ -162,28 +162,23 @@ envoyerPanier.addEventListener("click", (event) => {
                 POP UP              
   ----------------------------------- */ 
 
+  let modelContainer = document.querySelector(".model-container");
+  let model = document.querySelector(".model");
+  let modelH = document.querySelector(".model__h");
+  let modelP = document.querySelector(".model__p");
+  let btnOui = document.querySelector(".btn--model__oui");
+  let btnNon = document.querySelector(".btn--model__non");
+  let btnClose = document.querySelector(".close");
+
   function PopUp() {
-    const modelContainer = document.querySelector(".model-container");
     modelContainer.style.transform = "scale(1)";
-
-    const model = document.querySelector(".model");
     model.style.transform = "scale(1)";
-
-    const modelH = document.querySelector(".model__h");
     modelH.textContent = "Produit ajouté au panier !"
-
-    const modelP = document.querySelector(".model__p");
     modelP.textContent = `${quantityForm.value} ${nameForm} de couleur ${colorsForm.value} à été ajouté à votre panier ! `;
-
-    const btnOui = document.querySelector(".btn--model__oui");
     btnOui.textContent = "Accéder au panier";
     btnOui.href = "cart.html"
-
-    const btnNon = document.querySelector(".btn--model__non");
     btnNon.textContent = "Continuez vos achats";
     btnNon.href = "index.html";
-
-    const btnClose = document.querySelector(".close");
 
     btnClose.addEventListener('click', (event) => {
 
@@ -193,9 +188,30 @@ envoyerPanier.addEventListener("click", (event) => {
       model.style.transform = "scale(0)";
     })
   };
-      
-    //-- Fonction ajouter un produit sélectionné dans le localstorage
 
+  function PopUpQteMax() {
+    modelContainer.style.transform = "scale(1)";
+    model.style.transform = "scale(1)";
+    modelH.textContent = "Quantité maximal ajouté au panier !"
+    modelP.textContent = `100 ${nameForm} de couleur ${colorsForm.value} à été ajouté à votre panier ! `;
+    btnOui.textContent = "Accéder au panier";
+    btnOui.href = "cart.html"
+    btnNon.textContent = "Continuez vos achats";
+    btnNon.href = "index.html";
+
+    btnClose.addEventListener('click', (event) => {
+
+      event.preventDefault;
+
+      modelContainer.style.transform = "scale(0)";
+      model.style.transform = "scale(0)";
+    })
+  };
+
+  /* --------------------------------
+    FONCTION AJOUT PRODUIT AU LOCAL STORAGE             
+    ----------------------------------- */ 
+    
     const ajoutProduitLocalStorage = () => {
 
       // Ajout dans le tableau de l'objet avec les valeurs choisi par l'utilisateur
@@ -235,7 +251,7 @@ envoyerPanier.addEventListener("click", (event) => {
 
               localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
               
-              alert("Quantité maximum ajouté au panier !");
+              PopUpQteMax();
 
             }
         };

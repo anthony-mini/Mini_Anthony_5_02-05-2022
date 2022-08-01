@@ -232,6 +232,7 @@ BTN CONTINUER ACHAT & VIDER PANIER
 	 color: white;
 	 padding: 18px 28px;
 	 margin: 10px 20px;
+	 width: 275px;
 }
 
 #btnReturnAcc:hover {
@@ -247,6 +248,7 @@ BTN CONTINUER ACHAT & VIDER PANIER
     color: white;
     padding: 18px 28px;
 	margin: 10px 20px;
+	width: 275px;
 }
 
 #btnViderPanier:hover {
