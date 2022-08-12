@@ -73,27 +73,11 @@ function produits (produit) {
 };
 
 
-/* -------------------------------------------------------------------
-ÉCOUTE DES EVENEMENTS POUR AFFICHAGE DYNAMIQUE DES COULEURS ET NOMBRES
----------------------------------------------------------------------- */
-
-// ---- COULEURS ---- //
-
-let structureColorOption = document.querySelector("#colors");
-
-structureColorOption.addEventListener("input", (event) => {
-
-  let couleurProduit;
-
-  couleurProduit = event.target.value;
-
-});
-
-// ---- QUANTITE ---- //
+/* ---------------------------------------------------
+ÉCOUTE DE L'INPUT QUANTITE POUR VERIFIER LA SELECTION
+------------------------------------------------------ */
 
 let structureQuantiteOption = document.querySelector("#quantity");
-
-let quantiteProduit;
 
 structureQuantiteOption.addEventListener("input", (event) => {
 
@@ -101,10 +85,7 @@ structureQuantiteOption.addEventListener("input", (event) => {
   if(quantity.value < 0 || quantity.value > 100) {
     alert("Veuillez selectionner un nombre entre 1 et 100");
     location.reload();
-  } else {
-    quantiteProduit = event.target.value;
-  }
-  
+  } 
 });
 
 /* ---------------------------------------------------
@@ -116,9 +97,6 @@ AJOUT DES PRODUITS DANS LE PANIER À L'ÉCOUTE DU BOUTON
 const envoyerPanier = document.querySelector("#addToCart");
 
 // Écouter le bouton et envoyer le panier 
-
-//--------------- AddEventListener ---------------
-// ------------------------------------------------
 
 envoyerPanier.addEventListener("click", (event) => {
     
@@ -152,7 +130,7 @@ envoyerPanier.addEventListener("click", (event) => {
                 LE LOCAL STORAGE              
     ----------------------------------- */      
 
-    //-- Récupération et stockage des valeurs du formulaire "optionProduit" dans le Local Storage    
+    //-- Stockage des valeurs du formulaire "optionProduit" dans la clé "produit" dans le Local Storage    
 
     let produitEnregistreDansLocalStorage = JSON.parse(localStorage.getItem('produit'));    
     // JSON.parse pour convertir les données au format JSON qui sont dans le local storage en Objet JavaScript.
@@ -226,16 +204,16 @@ envoyerPanier.addEventListener("click", (event) => {
 
     if (produitEnregistreDansLocalStorage) {
 
-      produitEnregistreDansLocalStorage.forEach (function (choixProduit, key) { 
+      produitEnregistreDansLocalStorage.forEach (function (choixProduit, object) { 
 
         // Si le produit commandé est déjà dans le panier on addition les valeurs de quantité et met à jour l'objet présent dans la clé "produit"
 
         if (choixProduit.id == idProduit && choixProduit.couleur == colorsForm.value) {
             
-          produitEnregistreDansLocalStorage[key].quantite = parseInt(choixProduit.quantite) + parseInt(quantityForm.value);
+          produitEnregistreDansLocalStorage[object].quantite = parseInt(choixProduit.quantite) + parseInt(quantityForm.value);
 
             // Envoie de mise à jour s'il n'y pas plus de 100 produits au panier :
-            if (produitEnregistreDansLocalStorage[key].quantite <= 100)
+            if (produitEnregistreDansLocalStorage[object].quantite <= 100)
 
             PopUp();
 
@@ -243,11 +221,11 @@ envoyerPanier.addEventListener("click", (event) => {
             localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
             update = true;
 
-            if (produitEnregistreDansLocalStorage[key].quantite > 100){
+            if (produitEnregistreDansLocalStorage[object].quantite > 100){
               
-              // On update de la clés [key] du produit selectionner (pour eviter de supprimer tout les autres produits ajoutés au panier) avec la valeur maximal de 100.
+              // On update de la clés [object] du produit selectionner (pour eviter de supprimer tout les autres produits ajoutés au panier) avec la valeur maximal de 100.
               
-              produitEnregistreDansLocalStorage[key] = {nom: nameForm, id: idProduit, quantite: "100", couleur: colorsForm.value, url: linkUrl};
+              produitEnregistreDansLocalStorage[object] = {nom: nameForm, id: idProduit, quantite: "100", couleur: colorsForm.value, url: linkUrl};
 
               localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
               

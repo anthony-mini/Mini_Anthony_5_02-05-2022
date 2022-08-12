@@ -288,7 +288,7 @@ function modificationQuantité() {
       } 
 
       if (
-        produitEnregistreDansLocalStorage[q].quantite > 0 &&    produitEnregistreDansLocalStorage[q].quantite <= 100 && produitEnregistreDansLocalStorage[q].quantite !=0 ) {
+        produitEnregistreDansLocalStorage[q].quantite > 0 && produitEnregistreDansLocalStorage[q].quantite <= 100 && produitEnregistreDansLocalStorage[q].quantite !=0 ) {
 
           localStorage.setItem("produit", JSON.stringify(produitEnregistreDansLocalStorage));
 
@@ -396,7 +396,7 @@ function viderPanier(){
 }
 
 /* -------------------------------
-    FONCTION CONTINUEZ MES ACAHTS
+    FONCTION CONTINUEZ MES ACHATS
 ---------------------------------- */
 
 function retourPageProduit() {
