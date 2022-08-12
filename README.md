@@ -1,7 +1,7 @@
 # Mini_Anthony_5_02-05-2022
 Projet :  Site e-commerce Kanap 
 
-<strong> Github-pages </strong> : https://anthony-mini.github.io/test-P5/front/html/index.html <br>
+<strong> Github-pages </strong> : https://anthony-mini.github.io/Kanap-API/front/html/index.html <br>
 
 <strong> Codespaces </strong>: https://github.dev/anthony-mini/Mini_Anthony_5_02-05-2022
 
